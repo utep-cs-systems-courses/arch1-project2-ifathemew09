@@ -4,11 +4,12 @@
 #include "buzzer.h"
 #include "led.h"
 #include "switches.h"
+#include "ass.h"
 
 #define REACTION_TIME 40
 
 // State transitions
-static enum {START, MENU_0, MENU_1, GAME_PIANO, GAME_LED_0, GAME_LED_1, GAME_LED_2,  GAME_LED_WIN, GAME_LED_LOSE} current_state = START;
+static enum {START, MENU_0, MENU_1, GAME_PIANO, GAME_LED_0, GAME_LED_1, GAME_LED_2,  GAME_LED_WIN, GAME_LED_LOSE, ASSEMBLY_1, ASSEMBLY_2} current_state = START;
 // The delay for the LED game
 static short random_delay = 0;
 
@@ -55,6 +56,8 @@ void state_update(){
       current_state = GAME_PIANO;
     else if(top_s2_state_down)
       current_state = GAME_LED_0;
+    else if(top_s3_state_down)
+      current_state = ASSEMBLY_1;
     else
       current_state = MENU_0;
 
@@ -69,7 +72,6 @@ void state_update(){
       current_state = MENU_0;
       break;
     }
-    
     /* ---=== Piano Game ===--- */
     short period = 0;
     if(top_s1_state_down)
@@ -164,6 +166,13 @@ void state_update(){
       current_state = GAME_LED_0;
     
     
+    break;
+  case ASSEMBLY_1:
+    switching_leds_assembly();
+    led_update();
+    current_state = ASSEMBLY_2;
+    if(bottom_s1_state_down)
+      current_state = MENU_0;
     break;
   }
 }

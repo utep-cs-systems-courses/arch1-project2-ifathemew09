@@ -1,4 +1,4 @@
-SRC  = main.o state_machine.o timer.o switches.o buzzer.o led.o
+SRC  = ass.o main.o state_machine.o timer.o switches.o buzzer.o led.o
 CPU             = msp430g2553
 CFLAGS          = -mmcu=${CPU} -I../h
 LDFLAGS = ../demos/lib/libTimer.a -L/opt/ti/msp430_gcc/include
